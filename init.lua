@@ -83,7 +83,7 @@ require('lazy').setup({
 
       -- Useful status updates for LSP
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-      { 'j-hui/fidget.nvim', opts = {} },
+      { 'j-hui/fidget.nvim',       opts = {} },
 
       -- Additional lua configuration, makes nvim stuff amazing!
       'folke/neodev.nvim',
@@ -107,8 +107,31 @@ require('lazy').setup({
     },
   },
 
+  {
+    "nvim-neotest/neotest",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "antoinemadec/FixCursorHold.nvim",
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-neotest/neotest-jest",
+    },
+    config = function()
+      require('neotest').setup({
+        adapters = {
+          require('neotest-jest')({
+            jestCommand = "npm test --",
+            jestConfigFile = "custom.jest.config.ts",
+            env = { CI = true },
+            cwd = function(path)
+              return vim.fn.getcwd()
+            end,
+          }),
+        }
+      })
+    end
+  },
   -- Useful plugin to show you pending keybinds.
-  { 'folke/which-key.nvim', opts = {} },
+  { 'folke/which-key.nvim',  opts = {} },
   {
     -- Adds git related signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
@@ -232,7 +255,8 @@ require('lazy').setup({
         'nvim-telescope/telescope-fzf-native.nvim',
         -- NOTE: If you are having trouble with this installation,
         --       refer to the README for telescope-fzf-native for more instructions.
-        build = 'make',
+        build =
+        'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build',
         cond = function()
           return vim.fn.executable 'make' == 1
         end,
@@ -301,6 +325,15 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
 require('telescope').setup {
+  extensions = {
+    fzf = {
+      fuzzy = true,                   -- false will only do exact matching
+      override_generic_sorter = true, -- override the generic sorter
+      override_file_sorter = true,    -- override the file sorter
+      case_mode = "smart_case",       -- or "ignore_case" or "respect_case"
+      -- the default case_mode is "smart_case"
+    }
+  },
   defaults = {
     mappings = {
       i = {
@@ -479,6 +512,10 @@ local on_attach = function(_, bufnr)
   nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
   nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
 
+  vim.keymap.set('n', '<space>f', function()
+    vim.lsp.buf.format { async = true }
+  end)
+
   -- See `:help K` for why this keymap
   nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
   nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
@@ -534,7 +571,7 @@ local servers = {
   -- pyright = {},
   -- rust_analyzer = {},
   tsserver = {},
-  html = { filetypes = { 'html', 'twig', 'hbs'} },
+  html = { filetypes = { 'html', 'twig', 'hbs' } },
 
   lua_ls = {
     Lua = {
@@ -588,8 +625,8 @@ cmp.setup {
     completeopt = 'menu,menuone,noinsert',
   },
   mapping = cmp.mapping.preset.insert {
-    ['<C-n>'] = cmp.mapping.select_next_item(),
-    ['<C-p>'] = cmp.mapping.select_prev_item(),
+    ['<C-j>'] = cmp.mapping.select_next_item(),
+    ['<C-k>'] = cmp.mapping.select_prev_item(),
     ['<C-b>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete {},
