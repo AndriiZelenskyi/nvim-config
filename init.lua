@@ -414,6 +414,10 @@ vim.defer_fn(function()
 			"bash",
 		},
 
+    autotag = {
+      enabled = true,
+    },
+
 		-- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
 		auto_install = false,
 		-- Install languages synchronously (only applied to `ensure_installed`)
@@ -513,6 +517,9 @@ local on_attach = function(_, bufnr)
 
 	-- Lesser used LSP functionality
 	nmap("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
+	vim.keymap.set("n", "<leader>f", function()
+		vim.lsp.buf.format({ async = true })
+	end, opts)
 end
 
 -- document existing key chains
