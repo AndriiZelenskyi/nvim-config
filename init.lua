@@ -109,31 +109,6 @@ require("lazy").setup({
 	},
 
 	{
-		"nvim-neotest/neotest",
-		dependencies = {
-			"nvim-lua/plenary.nvim",
-			"antoinemadec/FixCursorHold.nvim",
-			"nvim-treesitter/nvim-treesitter",
-			"nvim-neotest/neotest-jest",
-		},
-		config = function()
-			require("neotest").setup({
-				adapters = {
-					require("neotest-jest")({
-						jestCommand = "npm test --",
-						jestConfigFile = "custom.jest.config.ts",
-						env = { CI = true },
-						cwd = function(path)
-							return vim.fn.getcwd()
-						end,
-					}),
-				},
-			})
-		end,
-	},
-	-- Useful plugin to show you pending keybinds.
-	{ "folke/which-key.nvim", opts = {} },
-	{
 		-- Adds git related signs to the gutter, as well as utilities for managing changes
 		"lewis6991/gitsigns.nvim",
 		opts = {
@@ -285,12 +260,6 @@ vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
 -- Remap for dealing with word wrap
 vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
-
--- Diagnostic keymaps
-vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
-vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
-vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
-vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
 
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
