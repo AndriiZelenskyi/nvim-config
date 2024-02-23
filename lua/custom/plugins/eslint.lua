@@ -4,6 +4,7 @@ return {
 		"jose-elias-alvarez/null-ls.nvim",
 		"neovim/nvim-lspconfig",
 	},
+	enable = false,
 	config = function()
 		local null_ls = require("null-ls")
 		local eslint = require("eslint")

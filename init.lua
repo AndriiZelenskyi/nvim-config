@@ -383,9 +383,9 @@ vim.defer_fn(function()
 			"bash",
 		},
 
-    autotag = {
-      enabled = true,
-    },
+		autotag = {
+			enabled = true,
+		},
 
 		-- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
 		auto_install = false,
@@ -491,24 +491,6 @@ local on_attach = function(_, bufnr)
 	end, opts)
 end
 
--- document existing key chains
-require("which-key").register({
-	["<leader>c"] = { name = "[C]ode", _ = "which_key_ignore" },
-	["<leader>d"] = { name = "[D]ocument", _ = "which_key_ignore" },
-	["<leader>g"] = { name = "[G]it", _ = "which_key_ignore" },
-	["<leader>h"] = { name = "Git [H]unk", _ = "which_key_ignore" },
-	["<leader>r"] = { name = "[R]ename", _ = "which_key_ignore" },
-	["<leader>s"] = { name = "[S]earch", _ = "which_key_ignore" },
-	["<leader>t"] = { name = "[T]oggle", _ = "which_key_ignore" },
-	["<leader>w"] = { name = "[W]orkspace", _ = "which_key_ignore" },
-})
--- register which-key VISUAL mode
--- required for visual <leader>hs (hunk stage) to work
-require("which-key").register({
-	["<leader>"] = { name = "VISUAL <leader>" },
-	["<leader>h"] = { "Git [H]unk" },
-}, { mode = "v" })
-
 -- mason-lspconfig requires that these setup functions are called in this order
 -- before setting up the servers.
 require("mason").setup()
@@ -611,9 +593,9 @@ cmp.setup({
 		end, { "i", "s" }),
 	}),
 	sources = {
-		{ name = "nvim_lsp", priority = 1 },
-		{ name = "luasnip", priority = 2 },
-		{ name = "path", priority = 1 },
+		{ name = "nvim_lsp" },
+		{ name = "luasnip" },
+		{ name = "path" },
 	},
 })
 
