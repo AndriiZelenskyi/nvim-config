@@ -12,10 +12,12 @@ return {
 				section_separators = "",
 			},
 			sections = {
-				lualine_c = { {
-					"filename",
-					path = 1,
-				} },
+				lualine_c = {
+					{
+						"filename",
+						path = 1,
+					},
+				},
 			},
 		})
 	end,

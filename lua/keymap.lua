@@ -23,3 +23,11 @@ end, { desc = "fix all eslint problems" })
 vim.keymap.set("n", "<leader>fi", function()
 	require("typescript-tools.api").remove_unused_imports(true)
 end, { desc = "fix unused imports" })
+
+vim.keymap.set("n", "<leader>cre", function()
+	vim.cmd("LspLensOn")
+end)
+
+vim.keymap.set("n", "<leader>crd", function()
+	vim.cmd("LspLensOff")
+end)
